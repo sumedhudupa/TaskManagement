@@ -68,11 +68,11 @@ const TaskForm = ({ task = null, onSubmit, onCancel, labels, isDarkMode }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className={`rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto ${
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2 sm:p-4 z-50">
+      <div className={`rounded-lg shadow-xl w-full max-w-lg sm:max-w-2xl max-h-[90vh] overflow-y-auto ${
         isDarkMode ? 'bg-gray-800' : 'bg-white'
       }`}>
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           <h3 className={`text-lg font-semibold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{task ? 'Edit Task' : 'Add New Task'}</h3>
           <div className="space-y-4">
             <div>

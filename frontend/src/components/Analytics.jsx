@@ -17,8 +17,8 @@ const Analytics = ({ getAnalyticsData, isDarkMode }) => {
   const { statusData, priorityData, overdueTasks, totalTasks } = getAnalyticsData();
 
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+    <div className="space-y-6 px-2 sm:px-0">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
         <div className={`p-6 rounded-lg shadow-sm ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
           <div className="flex items-center">
             <div className="p-3 rounded-full bg-blue-100">
@@ -77,7 +77,7 @@ const Analytics = ({ getAnalyticsData, isDarkMode }) => {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
         <div className={`p-6 rounded-lg shadow-sm ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
           <h3 className={`text-lg font-semibold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Task Status Distribution</h3>
           <ResponsiveContainer width="100%" height={300}>

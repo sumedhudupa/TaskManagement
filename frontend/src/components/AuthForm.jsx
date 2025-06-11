@@ -139,7 +139,7 @@ const AuthForm = ({
   };
 
   return (
-    <div className={`min-h-screen flex items-center justify-center p-4 ${
+    <div className={`min-h-screen flex items-center justify-center p-2 sm:p-4 ${
       isDarkMode 
         ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900' 
         : 'bg-gradient-to-br from-blue-50 via-white to-indigo-50'
@@ -148,7 +148,7 @@ const AuthForm = ({
         isDarkMode 
           ? 'bg-gray-800/80 backdrop-blur-sm' 
           : 'bg-white/80 backdrop-blur-sm'
-      } p-8 rounded-2xl shadow-2xl border ${
+      } p-4 sm:p-8 rounded-2xl shadow-2xl border ${
         isDarkMode ? 'border-gray-700' : 'border-gray-200'
       }`}>
         {/* Header */}

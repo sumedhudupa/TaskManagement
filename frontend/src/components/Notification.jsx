@@ -17,10 +17,10 @@ const Notification = ({ notification, undoDelete, isDarkMode, setNotification })
   };
 
   return (
-    <div className={`fixed top-4 right-4 z-50 p-4 rounded-lg border ${bgColor[notification.type]} ${textColor[notification.type]} shadow-lg`}>
+    <div className={`fixed top-2 right-2 sm:top-4 sm:right-4 z-50 p-3 sm:p-4 rounded-lg border ${bgColor[notification.type]} ${textColor[notification.type]} shadow-lg w-[90vw] max-w-xs sm:max-w-sm`}>
       <div className="flex items-center justify-between">
-        <span>{notification.message}</span>
-        <div className="flex items-center ml-4">
+        <span className="truncate pr-2">{notification.message}</span>
+        <div className="flex items-center ml-2 sm:ml-4">
           {notification.showUndo && (
             <button
               onClick={undoDelete}

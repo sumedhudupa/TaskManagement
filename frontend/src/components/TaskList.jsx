@@ -22,10 +22,10 @@ const TaskList = ({
           <div
             {...provided.droppableProps}
             ref={provided.innerRef}
-            className={`space-y-4 ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}
+            className={`space-y-4 ${isDarkMode ? 'text-gray-200' : 'text-gray-800'} w-full`}
           >
             {filteredAndSortedTasks.length === 0 && (
-              <div className="text-center text-gray-400">No tasks found.</div>
+              <div className="text-center text-gray-400 py-8">No tasks found.</div>
             )}
             {filteredAndSortedTasks.map((task, index) => (
               <Draggable key={task._id} draggableId={String(task._id)} index={index}>
