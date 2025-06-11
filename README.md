@@ -102,7 +102,3 @@ npm start
 
 ## License
 MIT
-
----
-
-**Made with ❤️ for productivity!**

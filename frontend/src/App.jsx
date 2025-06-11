@@ -491,23 +491,6 @@ const EnhancedTaskManager = () => {
       setShowAddForm(false);
       resetNewTask();
       showNotification('Task created successfully!', 'success');
-      // Send email notification to the logged-in user
-      try {
-        await fetch('http://localhost:5000/api/notify', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authService.getToken()}`
-          },
-          body: JSON.stringify({
-            to: user.email,
-            subject: `New Task Created: ${taskData.title}`,
-            text: `A new task has been created: ${taskData.title}\nDescription: ${taskData.description || ''}`
-          })
-        });
-      } catch (e) {
-        // Optionally show a notification if email fails
-      }
     } catch (err) {
       showNotification('Could not create task', 'error');
     }
