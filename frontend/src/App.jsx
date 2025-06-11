@@ -25,7 +25,6 @@ const useAppContext = () => {
   return context;
 };
 
-// Remove mock authService and replace with real API calls
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000/api';
 
 const authService = {
@@ -72,7 +71,7 @@ const authService = {
   }
 };
 
-// AuthForm moved outside EnhancedTaskManager to prevent remounting and input focus loss
+
 const EnhancedTaskManager = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [user, setUser] = useState(null);
@@ -980,21 +979,23 @@ const EnhancedTaskManager = () => {
         </div>
 
         {/* Main Content */}
-        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 py-4 sm:py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           {activeTab === 'tasks' && (
             <>
-              <div className={`rounded-lg shadow-sm p-2 sm:p-4 mb-4 sm:mb-6 ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
-                <div className="flex flex-col sm:flex-col lg:flex-row gap-2 sm:gap-4">
+              {/* Filters and Search */}
+              <div className={`rounded-lg shadow-sm p-4 mb-6 ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
+                <div className="flex flex-col lg:flex-row gap-4">
+                  {/* Add Task Button */}
                   <button
                     onClick={() => setShowAddForm(true)}
-                    className={`mb-2 sm:mb-4 lg:mb-0 mr-0 sm:mr-4 px-3 sm:px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors bg-blue-600 text-white hover:bg-blue-700 shadow ${showAddForm ? 'opacity-60 cursor-not-allowed' : ''}`}
+                    className={`mb-4 lg:mb-0 mr-4 px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors bg-blue-600 text-white hover:bg-blue-700 shadow ${showAddForm ? 'opacity-60 cursor-not-allowed' : ''}`}
                     disabled={showAddForm}
                     style={{ alignSelf: 'flex-start' }}
                   >
                     <Plus size={18} />
-                    <span className="hidden xs:inline">Add Task</span>
+                    <span>Add Task</span>
                   </button>
-                  <div className="flex-1 min-w-0">
+                  <div className="flex-1">
                     <div className="relative">
                       <Search size={20} className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${
                         isDarkMode ? 'text-gray-400' : 'text-gray-500'
@@ -1004,56 +1005,57 @@ const EnhancedTaskManager = () => {
                         placeholder="Search tasks, labels, descriptions..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className={`w-full pl-10 pr-2 sm:pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                        className={`w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                           isDarkMode 
                             ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
                             : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
-                        } text-sm sm:text-base`}
+                        }`}
                       />
                     </div>
                   </div>
-                  <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-                    <div className="flex items-center space-x-1 sm:space-x-2">
+                  
+                  <div className="flex flex-wrap items-center gap-3">
+                    <div className="flex items-center space-x-2">
                       <Filter size={16} className={isDarkMode ? 'text-gray-400' : 'text-gray-500'} />
                       <select
                         value={filter}
                         onChange={(e) => setFilter(e.target.value)}
-                        className={`px-2 sm:px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                        className={`px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                           isDarkMode 
                             ? 'bg-gray-700 border-gray-600 text-white'
                             : 'bg-white border-gray-300 text-gray-900'
-                        } text-xs sm:text-sm`}
+                        }`}
                       >
-                        <option value="all">All</option>
+                        <option value="all">All Tasks</option>
                         <option value="pending">Pending</option>
                         <option value="in-progress">In Progress</option>
                         <option value="completed">Completed</option>
                         <option value="overdue">Overdue</option>
                       </select>
                     </div>
-                    <div className="flex items-center space-x-1 sm:space-x-2">
-                      <span className={`text-xs sm:text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Sort:</span>
+                    <div className="flex items-center space-x-2">
+                      <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Sort:</span>
                       <select
                         value={sortBy}
                         onChange={(e) => setSortBy(e.target.value)}
-                        className={`px-2 sm:px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                        className={`px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                           isDarkMode 
                             ? 'bg-gray-700 border-gray-600 text-white'
                             : 'bg-white border-gray-300 text-gray-900'
-                        } text-xs sm:text-sm`}
+                        }`}
                       >
-                        <option value="createdAt">Created</option>
-                        <option value="dueDate">Due</option>
+                        <option value="createdAt">Created Date</option>
+                        <option value="dueDate">Due Date</option>
                         <option value="priority">Priority</option>
                         <option value="title">Title</option>
                       </select>
                       <button
                         onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-                        className={`px-2 sm:px-3 py-2 border rounded-lg transition-colors ${
+                        className={`px-3 py-2 border rounded-lg transition-colors ${
                           isDarkMode 
                             ? 'bg-gray-700 border-gray-600 text-white hover:bg-gray-600'
                             : 'bg-white border-gray-300 text-gray-900 hover:bg-gray-50'
-                        } text-xs sm:text-sm`}
+                        }`}
                       >
                         {sortOrder === 'asc' ? '↑' : '↓'}
                       </button>
