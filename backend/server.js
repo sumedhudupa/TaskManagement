@@ -9,7 +9,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cron = require('node-cron');
 // Load environment variables
-dotenv.config({ path: './.env.development' });
+require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 4000;

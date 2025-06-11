@@ -1,8 +1,6 @@
-// email.js - Final working configuration
 const nodemailer = require('nodemailer');
-require('dotenv').config({ path: './.env.development' });
+require('dotenv').config();
 
-// Make sure environment variables are loaded
 if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
   console.error('❌ SMTP credentials missing from environment variables');
   console.error('SMTP_USER:', process.env.SMTP_USER ? 'SET' : 'NOT SET');
@@ -18,7 +16,6 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-// Verify connection on startup
 transporter.verify((error, success) => {
   if (error) {
     console.error('❌ SMTP configuration error:', error.message);
