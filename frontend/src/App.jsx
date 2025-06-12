@@ -4,7 +4,7 @@ import autotable from 'jspdf-autotable';
 import {
   Plus, Edit2, Trash2, Check, Calendar, Filter, Search, 
   BarChart3, LogOut, 
-  Moon, Sun, Bell, Tag, CheckSquare, AlertTriangle, Home, RotateCcw, Save } from 'lucide-react';
+  Moon, Sun, Bell, Tag, CheckSquare, AlertTriangle, Home, RotateCcw, Save, Menu, X } from 'lucide-react';
 import AuthForm from './components/AuthForm';
 import TaskForm from './components/TaskForm';
 import Notification from './components/Notification';
@@ -90,7 +90,7 @@ const EnhancedTaskManager = () => {
   const [remindersEnabled, setRemindersEnabled] = useState(false);
   const [reminderLoading, setReminderLoading] = useState(false);
   const [sendNowLoading, setSendNowLoading] = useState(false);
-
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   // Load initial data
   useEffect(() => {
     const storedUser = authService.getCurrentUser();
@@ -876,8 +876,9 @@ const EnhancedTaskManager = () => {
         {/* Header */}
         <div className={`shadow-sm border-b ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center py-4 space-y-4 lg:space-y-0">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-3 sm:space-y-0 sm:space-x-8">
+            <div className="flex justify-between items-center py-4">
+              {/* Logo and Title */}
+              <div className="flex items-center">
                 <div>
                   <h1 className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                     Task Manager Pro
@@ -886,11 +887,15 @@ const EnhancedTaskManager = () => {
                     Welcome back, {user.name}
                   </p>
                 </div>
-                
-                <nav className="flex flex-wrap gap-2 sm:space-x-3">
+              </div>
+
+              {/* Desktop Navigation & Actions */}
+              <div className="hidden lg:flex items-center space-x-6">
+                {/* Navigation */}
+                <nav className="flex space-x-3">
                   <button
                     onClick={() => setActiveTab('tasks')}
-                    className={`px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                    className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                       activeTab === 'tasks'
                         ? 'bg-blue-600 text-white'
                         : isDarkMode
@@ -903,7 +908,7 @@ const EnhancedTaskManager = () => {
                   </button>
                   <button
                     onClick={() => setActiveTab('analytics')}
-                    className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                       activeTab === 'analytics'
                         ? 'bg-blue-600 text-white'
                         : isDarkMode
@@ -915,9 +920,61 @@ const EnhancedTaskManager = () => {
                     Analytics
                   </button>
                 </nav>
+
+                {/* Action Buttons */}
+                <div className="flex items-center space-x-2">
+                  <button
+                    onClick={toggleDarkMode}
+                    className={`p-2 rounded-lg transition-colors ${
+                      isDarkMode 
+                        ? 'text-gray-300 hover:text-white hover:bg-gray-700'
+                        : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
+                    }`}
+                  >
+                    {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+                  </button>
+                  
+                  <button
+                    onClick={toggleNightlyReminders}
+                    disabled={reminderLoading}
+                    className={`px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors ${
+                      remindersEnabled ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-gray-300 text-gray-700 hover:bg-gray-400'
+                    } ${reminderLoading ? 'opacity-60 cursor-not-allowed' : ''}`}
+                    title="Toggle nightly email reminders"
+                  >
+                    <Bell size={16} />
+                    <span>Reminders</span>
+                    {reminderLoading && <span className="ml-2 animate-spin">⏳</span>}
+                  </button>
+                  
+                  <button
+                    onClick={sendReminderNow}
+                    disabled={sendNowLoading}
+                    className={`px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors bg-yellow-500 text-white hover:bg-yellow-600 ${
+                      sendNowLoading ? 'opacity-60 cursor-not-allowed' : ''
+                    }`}
+                    title="Send reminder instantly"
+                  >
+                    <RotateCcw size={16} />
+                    <span>Send Now</span>
+                    {sendNowLoading && <span className="ml-2 animate-spin">⏳</span>}
+                  </button>
+                  
+                  <button
+                    onClick={handleLogout}
+                    className={`p-2 rounded-lg transition-colors ${
+                      isDarkMode 
+                        ? 'text-gray-300 hover:text-white hover:bg-gray-700'
+                        : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
+                    }`}
+                  >
+                    <LogOut size={20} />
+                  </button>
+                </div>
               </div>
-              
-              <div className="flex flex-wrap items-center gap-2 sm:gap-4">
+
+              {/* Mobile Menu Button */}
+              <div className="lg:hidden flex items-center space-x-2">
                 <button
                   onClick={toggleDarkMode}
                   className={`p-2 rounded-lg transition-colors ${
@@ -928,41 +985,108 @@ const EnhancedTaskManager = () => {
                 >
                   {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
                 </button>
-                {/* Nightly Reminders Toggle Button */}
+                
                 <button
-                  onClick={toggleNightlyReminders}
-                  disabled={reminderLoading}
-                  className={`px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors ${remindersEnabled ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-gray-300 text-gray-700 hover:bg-gray-400'} ${reminderLoading ? 'opacity-60 cursor-not-allowed' : ''}`}
-                  style={{ marginLeft: 8 }}
-                  title="Toggle nightly email reminders"
-                >
-                  <Bell size={16} />
-                  <span>{remindersEnabled ? 'Disable Nightly Reminders' : 'Enable Nightly Reminders'}</span>
-                  {reminderLoading && <span className="ml-2 animate-spin">⏳</span>}
-                </button>
-                <button
-                  onClick={sendReminderNow}
-                  disabled={sendNowLoading}
-                  className={`px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors bg-yellow-500 text-white hover:bg-yellow-600 ${sendNowLoading ? 'opacity-60 cursor-not-allowed' : ''}`}
-                  style={{ marginLeft: 8 }}
-                  title="Send reminder instantly"
-                >
-                  <RotateCcw size={16} />
-                  <span>Send Reminder Now</span>
-                  {sendNowLoading && <span className="ml-2 animate-spin">⏳</span>}
-                </button>
-                <button
-                  onClick={handleLogout}
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                   className={`p-2 rounded-lg transition-colors ${
                     isDarkMode 
                       ? 'text-gray-300 hover:text-white hover:bg-gray-700'
                       : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
                   }`}
                 >
-                  <LogOut size={20} />
+                  {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
                 </button>
               </div>
             </div>
+
+            {/* Mobile Menu */}
+            {mobileMenuOpen && (
+              <div className="lg:hidden border-t border-gray-200 dark:border-gray-700 py-3">
+                {/* Navigation */}
+                <nav className="flex flex-col space-y-2 mb-4">
+                  <button
+                    onClick={() => {
+                      setActiveTab('tasks');
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`px-4 py-3 rounded-md text-sm font-medium transition-colors text-left ${
+                      activeTab === 'tasks'
+                        ? 'bg-blue-600 text-white'
+                        : isDarkMode
+                          ? 'text-gray-300 hover:text-white hover:bg-gray-700'
+                          : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
+                    }`}
+                  >
+                    <Home size={16} className="inline mr-3" />
+                    Tasks
+                  </button>
+                  <button
+                    onClick={() => {
+                      setActiveTab('analytics');
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`px-4 py-3 rounded-md text-sm font-medium transition-colors text-left ${
+                      activeTab === 'analytics'
+                        ? 'bg-blue-600 text-white'
+                        : isDarkMode
+                          ? 'text-gray-300 hover:text-white hover:bg-gray-700'
+                          : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
+                    }`}
+                  >
+                    <BarChart3 size={16} className="inline mr-3" />
+                    Analytics
+                  </button>
+                </nav>
+
+                {/* Action Buttons */}
+                <div className="flex flex-col space-y-2 border-t border-gray-200 dark:border-gray-700 pt-3">
+                  <button
+                    onClick={() => {
+                      toggleNightlyReminders();
+                      setMobileMenuOpen(false);
+                    }}
+                    disabled={reminderLoading}
+                    className={`px-4 py-3 rounded-lg flex items-center space-x-3 transition-colors text-left ${
+                      remindersEnabled ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-gray-300 text-gray-700 hover:bg-gray-400'
+                    } ${reminderLoading ? 'opacity-60 cursor-not-allowed' : ''}`}
+                  >
+                    <Bell size={16} />
+                    <span>{remindersEnabled ? 'Disable Nightly Reminders' : 'Enable Nightly Reminders'}</span>
+                    {reminderLoading && <span className="ml-auto animate-spin">⏳</span>}
+                  </button>
+                  
+                  <button
+                    onClick={() => {
+                      sendReminderNow();
+                      setMobileMenuOpen(false);
+                    }}
+                    disabled={sendNowLoading}
+                    className={`px-4 py-3 rounded-lg flex items-center space-x-3 transition-colors bg-yellow-500 text-white hover:bg-yellow-600 text-left ${
+                      sendNowLoading ? 'opacity-60 cursor-not-allowed' : ''
+                    }`}
+                  >
+                    <RotateCcw size={16} />
+                    <span>Send Reminder Now</span>
+                    {sendNowLoading && <span className="ml-auto animate-spin">⏳</span>}
+                  </button>
+                  
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`px-4 py-3 rounded-lg flex items-center space-x-3 transition-colors text-left ${
+                      isDarkMode 
+                        ? 'text-gray-300 hover:text-white hover:bg-gray-700'
+                        : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
+                    }`}
+                  >
+                    <LogOut size={16} />
+                    <span>Logout</span>
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
