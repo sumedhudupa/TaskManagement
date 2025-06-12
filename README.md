@@ -293,7 +293,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 <img src="images/image1.png" alt="Dashboard Screenshot" width="600">
-<img src="images/image2" alt="Analytics Screenshot" width="600">
-<img src="images/image3" alt="Dark Mode Screenshot" width="600">
-<img src="images/image4" alt="Add Task Screenshot" width="600">
-<img src="images/image5" alt="Generated PDF Screenshot" width="600">
+<img src="images/image2.png" alt="Analytics Screenshot" width="600">
+<img src="images/image3.png" alt="Dark Mode Screenshot" width="600">
+<img src="images/image4.png" alt="Add Task Screenshot" width="600">
+<img src="images/image5.png" alt="Generated PDF Screenshot" width="600">
