@@ -1,14 +1,9 @@
-import React, { useState, useEffect, useContext, createContext } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
 import {
-  Plus, Edit2, Trash2, Check, X, Calendar, Filter, Search, 
-  BarChart3, PieChart, TrendingUp, Settings, User, LogOut, 
-  Moon, Sun, Bell, Tag, CheckSquare, DragHandleDots2, 
-  AlertTriangle, Clock, Users, Home, RotateCcw, Save,
-  ChevronDown, ChevronRight, Eye, EyeOff, Menu
-} from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, PieChart as RechartsPieChart, Pie, Cell, LineChart, Line, ResponsiveContainer } from 'recharts';
+  Plus, Edit2, Trash2, Check, Calendar, Filter, Search, 
+  BarChart3, LogOut, 
+  Moon, Sun, Bell, Tag, CheckSquare, AlertTriangle, Home, RotateCcw, Save } from 'lucide-react';
 import AuthForm from './components/AuthForm';
 import TaskForm from './components/TaskForm';
 import Notification from './components/Notification';
@@ -16,14 +11,6 @@ import Analytics from './components/Analytics';
 
 // Context for theme and authentication
 const AppContext = createContext();
-
-const useAppContext = () => {
-  const context = useContext(AppContext);
-  if (!context) {
-    throw new Error('useAppContext must be used within AppProvider');
-  }
-  return context;
-};
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000/api';
 
@@ -156,11 +143,11 @@ const EnhancedTaskManager = () => {
     };
 
     // Status colors mapping
-    const statusColors = {
-      pending: colors.mediumGray,
-      'in-progress': colors.secondary,
-      completed: colors.success
-    };
+    // const statusColors = {
+    //   pending: colors.mediumGray,
+    //   'in-progress': colors.secondary,
+    //   completed: colors.success
+    // };
 
     const uncompletedTasks = tasks.filter(t => t.status !== 'completed');
 
@@ -995,6 +982,17 @@ const EnhancedTaskManager = () => {
                     <Plus size={18} />
                     <span>Add Task</span>
                   </button>
+                  <button
+                      onClick={exportUncompletedTasksToPDF}
+                      className={`px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors ${
+                        isDarkMode 
+                          ? 'bg-green-600 text-white hover:bg-green-700' 
+                          : 'bg-green-600 text-white hover:bg-green-700'
+                      } shadow`}
+                    >
+                      <Save size={18} />
+                      <span>Export PDF</span>
+                    </button>
                   <div className="flex-1 order-1 sm:order-2">
                     <div className="relative">
                       <Search size={20} className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${
