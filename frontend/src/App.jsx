@@ -1,5 +1,6 @@
 import React, { useState, useEffect, createContext } from 'react';
 import jsPDF from 'jspdf';
+import autotable from 'jspdf-autotable';
 import {
   Plus, Edit2, Trash2, Check, Calendar, Filter, Search, 
   BarChart3, LogOut, 
